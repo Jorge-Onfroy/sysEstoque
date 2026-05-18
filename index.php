@@ -43,6 +43,7 @@ $resultado = mysqli_query($conn, $sql);
         <a href="adicionar.php" class="btn btn-success mb-3">
             Novo Produto
         </a>
+        <a href="venda.php" class="btn btn-sucess mb-3">Venda</a>
 
         <div class="table-responsive">
 
@@ -61,92 +62,75 @@ $resultado = mysqli_query($conn, $sql);
                     </tr>
 
                 </thead>
+<tbody>
 
-                <tbody>
+<?php if(mysqli_num_rows($resultado) > 0){ ?>
 
-                    <?php while($produto = mysqli_fetch_assoc($resultado)){ ?>
+    <?php while($produto = mysqli_fetch_assoc($resultado)){ ?>
 
-                    <tr>
+        <tr>
 
-                        <td>
-                            <?php echo $produto['id']; ?>
-                        </td>
+            <td><?php echo $produto['id']; ?></td>
 
-                        <td>
-                            <?php echo $produto['produto']; ?>
-                        </td>
+            <td><?php echo $produto['produto']; ?></td>
 
-                        <td>
-                            <?php echo $produto['categoria']; ?>
-                        </td>
+            <td><?php echo $produto['categoria']; ?></td>
 
-                        <td>
-                            <?php echo $produto['quantidade']; ?>
-                        </td>
+            <td><?php echo $produto['quantidade']; ?></td>
 
-                        <td>
-                            R$ <?php echo number_format($produto['preco'], 2, ',', '.'); ?>
-                        </td>
+            <td>R$ <?php echo $produto['preco']; ?></td>
 
-                        <td>
+            <td>
 
-                            <?php
+                <?php
 
-                            if($produto['quantidade'] > 5){
+                if($produto['quantidade'] > 5){
 
-                                echo '
-                                <span class="badge bg-success">
-                                    Em estoque
-                                </span>
-                                ';
+                    echo '<span class="badge bg-success">Em estoque</span>';
 
-                            }elseif($produto['quantidade'] > 0){
+                }elseif($produto['quantidade'] > 0){
 
-                                echo '
-                                <span class="badge bg-warning text-dark">
-                                    Estoque baixo
-                                </span>
-                                ';
+                    echo '<span class="badge bg-warning text-dark">Estoque baixo</span>';
 
-                            }else{
+                }else{
 
-                                echo '
-                                <span class="badge bg-danger">
-                                    Sem estoque
-                                </span>
-                                ';
+                    echo '<span class="badge bg-danger">Sem estoque</span>';
 
-                            }
+                }
 
-                            ?>
+                ?>
 
-                        </td>
+            </td>
 
-                        <td>
+            <td>
 
-                            <?php if($_SESSION['cargo'] == 'admin'){ ?>
+                <button class="btn btn-warning btn-sm">
+                    Editar
+                </button>
 
-                                <a href="#" class="btn btn-warning btn-sm">
-                                    Editar
-                                </a>
+            </td>
 
-                                <a
-                                    href="excluir.php?id=<?php echo $produto['id']; ?>"
-                                    class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Deseja realmente excluir?')"
-                                >
-                                    Excluir
-                                </a>
+        </tr>
 
-                            <?php } ?>
+    <?php } ?>
 
-                        </td>
+<?php }else{ ?>
 
-                    </tr>
+    <tr>
 
-                    <?php } ?>
+        <td colspan="7" class="text-center">
 
-                </tbody>
+            Nenhum produto encontrado.
+            <br>
+            Adicione novos produtos.
+
+        </td>
+
+    </tr>
+
+<?php } ?>
+
+</tbody>
 
             </table>
 

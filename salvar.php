@@ -8,15 +8,30 @@ $categoria = $_POST['categoria'];
 $quantidade = $_POST['quantidade'];
 $preco = $_POST['preco'];
 
-$sql = "INSERT INTO produtos
-(produto, categoria, quantidade, preco)
+if($quantidade < 0 || $preco < 0){
 
-VALUES
+    die('Valores inválidos');
 
-('$produto', '$categoria', '$quantidade', '$preco')
-";
+}
 
-mysqli_query($conn, $sql);
+$stmt = $conn->prepare("
+    INSERT INTO produtos
+    (produto, categoria, quantidade, preco)
+
+    VALUES
+
+    (?, ?, ?, ?)
+");
+
+$stmt->bind_param(
+    "ssid",
+    $produto,
+    $categoria,
+    $quantidade,
+    $preco
+);
+
+$stmt->execute();
 
 header('Location: index.php');
 

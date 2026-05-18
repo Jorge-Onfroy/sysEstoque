@@ -16,13 +16,14 @@ include('conexao.php');
 
 <h1>Novo Produto</h1>
 
-<form action="salvar.php" method="POST">
+<form onsubmit="return validarForm()" action="salvar.php" method="POST">
 
     <input
         type="text"
         name="produto"
         class="form-control mb-3"
         placeholder="Produto"
+        required
     >
 
     <input
@@ -30,6 +31,7 @@ include('conexao.php');
         name="categoria"
         class="form-control mb-3"
         placeholder="Categoria"
+        required
     >
 
     <input
@@ -37,18 +39,52 @@ include('conexao.php');
         name="quantidade"
         class="form-control mb-3"
         placeholder="Quantidade"
+        min="0"
+        required
     >
 
     <input
-        type="text"
+        type="number"
         name="preco"
         class="form-control mb-3"
         placeholder="Preço"
+        min="0"
+        required
     >
 
     <button class="btn btn-success">
         Salvar
     </button>
+    
+    <script>
+
+function validarForm(){
+
+    let quantidade = document.getElementsByName('quantidade')[0].value;
+
+    let preco = document.getElementsByName('preco')[0].value;
+
+    if(quantidade < 0){
+
+        alert('Quantidade não pode ser negativa');
+
+        return false;
+
+    }
+
+    if(preco < 0){
+
+        alert('Preço não pode ser negativo');
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+</script>
 
 </form>
 
